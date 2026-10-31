@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080e1d">
+<title>TIKHON | IT Projects</title>
+<style>
+:root{--bg:#080e1d;--panel:#111b30;--panel2:#192944;--blue:#5795ff;--cyan:#42d8e8;--white:#f3f6ff;--muted:#a1b0c9;--border:#ffffff18}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,sans-serif;line-height:1.6}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.container{width:min(1150px,92%);margin:auto}
+header{position:sticky;top:0;z-index:10;background:#080e1df2;backdrop-filter:blur(15px);border-bottom:1px solid var(--border)}
+.nav{min-height:75px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:bold}
+.logo{width:45px;height:45px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:grid;place-items:center;overflow:hidden;font-size:20px;font-weight:900}
+.logo img{width:100%;height:100%;object-fit:cover}
+.brand small{display:block;font-size:10px;color:var(--muted);letter-spacing:2px}
+nav{display:flex;gap:17px;flex-wrap:wrap}
+nav a{font-size:13px;color:var(--muted)}
+nav a:hover{color:white}
+.hero{padding:100px 0 85px;background:radial-gradient(ellipse at 80% 20%,#3577ff35,transparent 40%),radial-gradient(ellipse at 10% 80%,#23c6d830,transparent 35%)}
+.eyebrow{color:var(--cyan);font-size:12px;font-weight:bold;letter-spacing:3px}
+h1{font-size:clamp(40px,7vw,76px);line-height:1.1;margin:20px 0}
+h1 span{background:linear-gradient(90deg,#63a3ff,#55e4e7);-webkit-background-clip:text;color:transparent}
+h2{font-size:clamp(27px,4vw,38px);margin:0 0 15px}
+h3{margin:0 0 10px}
+p{color:var(--muted)}
+.hero p{max-width:700px;font-size:18px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{border:0;border-radius:10px;padding:12px 19px;background:linear-gradient(110deg,var(--blue),#3975e8);color:white;font-weight:bold;display:inline-block}
+.btn.secondary{background:var(--panel2);border:1px solid var(--border)}
+.btn.red{background:#a83d50}
+section{padding:70px 0;scroll-margin-top:75px}
+.section-desc{max-width:750px;margin-bottom:30px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:23px;min-width:0}
+.card:hover{border-color:#5795ff80}
+.project-image{width:100%;height:185px;object-fit:cover;border-radius:12px;margin-bottom:15px;background:var(--panel2)}
+.project-icon{height:185px;border-radius:12px;background:linear-gradient(135deg,#142d54,#173d52);display:grid;place-items:center;font-size:55px;margin-bottom:15px}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}
+.tag{padding:5px 10px;border-radius:20px;background:#213657;color:#a9d0ff;font-size:12px}
+.details{border-top:1px solid var(--border);margin-top:15px;padding-top:12px}
+.details p{margin:5px 0;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:35px}
+.stat{background:var(--panel);padding:20px;border-radius:14px;text-align:center;border:1px solid var(--border)}
+.stat strong{font-size:25px;color:var(--cyan);display:block}
+.skills{display:flex;gap:10px;flex-wrap:wrap}
+.skill{padding:12px 17px;background:var(--panel2);border-radius:10px}
+footer{border-top:1px solid var(--border);padding:30px 0;color:var(--muted)}
+.admin-fab{position:fixed;bottom:20px;right:20px;z-index:30;border:1px solid #ffffff33;background:#192944;color:white;border-radius:50px;padding:13px 18px;box-shadow:0 5px 30px #0008}
+.overlay{position:fixed;inset:0;background:#000b;z-index:100;display:none;overflow:auto;padding:20px}
+.overlay.show{display:block}
+.admin{max-width:850px;margin:20px auto;background:#111b30;border:1px solid var(--border);border-radius:18px;padding:25px}
+.admin-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.close{background:#293956;color:white;border:0;border-radius:9px;padding:10px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+.tab{background:#23344f;color:white;border:0;border-radius:8px;padding:10px 14px}
+.tab.active{background:#3975e8}
+.panel{display:none}
+.panel.active{display:block}
+.field{margin:15px 0}
+.field label{display:block;font-size:13px;color:#b9c9df;margin-bottom:6px}
+.field input,.field textarea{width:100%;background:#091326;color:white;border:1px solid #ffffff25;border-radius:9px;padding:12px;outline:none}
+.field textarea{min-height:90px;resize:vertical}
+.field input:focus,.field textarea:focus{border-color:var(--blue)}
+.admin-project{background:#1a2942;padding:15px;border-radius:12px;margin:12px 0}
+.admin-project h3{margin-bottom:12px}
+.admin-project button{margin:5px 5px 0 0}
+.small{font-size:12px;color:var(--muted)}
+.notice{padding:13px;background:#253653;border-radius:10px;color:#c9dcf5;margin:15px 0}
+.hidden{display:none!important}
+@media(max-width:700px){
+ .nav{align-items:flex-start;padding:12px 0;flex-direction:column}
+ nav{gap:12px}
+ .hero{padding:65px 0}
+ .grid{grid-template-columns:1fr}
+ .stats{grid-template-columns:1fr}
+ section{padding:50px 0}
+ .admin{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="container nav">
+<a class="brand" href="#home">
+<div class="logo" id="logoBox">T</div>
+<div><span id="brandName">TIKHON</span><small>WEB DEVELOPMENT</small></div>
+</a>
+<nav>
+<a href="#home">Главная</a>
+<a href="#projects">Проекты</a>
+<a href="#about">Обо мне</a>
+<a href="#technology">Технологии</a>
+<a href="#contacts">Контакты</a>
+</nav>
+</div>
+</header>
+
+<main>
+<section class="hero" id="home">
+<div class="container">
+<div class="eyebrow" id="eyebrow">PERSONAL IT PORTFOLIO</div>
+<h1 id="heroTitle">Создаю <span>цифровые</span><br>проекты и системы</h1>
+<p id="heroText">Разработка сайтов, автоматизация процессов, системы учёта, складские решения и интерактивные IT-тренажёры.</p>
+<div class="actions">
+<a class="btn" href="#projects">Мои проекты →</a>
+<a class="btn secondary" href="#about">Подробнее обо мне</a>
+</div>
+<div class="stats">
+<div class="stat"><strong id="statProjects">5</strong>проектов и разработок</div>
+<div class="stat"><strong>HTML / JS</strong>основные технологии</div>
+<div class="stat"><strong>24/7</strong>доступность сайтов</div>
+</div>
+</div>
+</section>
+
+<section id="projects">
+<div class="container">
+<div class="eyebrow">MY WORK</div>
+<h2>Мои проекты</h2>
+<p class="section-desc" id="projectsIntro">Каждый проект решает определённую задачу: от школьных информационных сайтов до автоматизированных систем и технических тренажёров.</p>
+<div class="grid" id="projectGrid"></div>
+</div>
+</section>
+
+<section id="about" style="background:#0b1426">
+<div class="container">
+<div class="eyebrow">ABOUT</div>
+<h2 id="aboutTitle">О разработчике</h2>
+<p id="aboutText">Я изучаю веб-разработку и создаю собственные цифровые решения. Мне интересно не только оформление сайтов, но и их функциональность: базы данных, интерфейсы, автоматизация, печать документов и взаимодействие с оборудованием.</p>
+<div class="card">
+<h3>Мой подход к разработке</h3>
+<p id="approachText">Я стараюсь создавать понятные интерфейсы, добавлять полезные функции и делать проекты удобными для использования на компьютерах и смартфонах.</p>
+</div>
+</div>
+</section>
+
+<section id="technology">
+<div class="container">
+<div class="eyebrow">TECHNOLOGY</div>
+<h2>Технологии и инструменты</h2>
+<p id="technologyText">В проектах используются следующие технологии и инструменты:</p>
+<div class="skills" id="skills"></div>
+</div>
+</section>
+
+<section id="contacts" style="background:#0b1426">
+<div class="container">
+<div class="eyebrow">CONTACT</div>
+<h2>Контакты</h2>
+<p id="contactText">По вопросам сотрудничества и знакомства с проектами:</p>
+<p id="contactValue">Связаться с разработчиком можно через личные сообщения.</p>
+</div>
+</section>
+</main>
+
+<footer>
+<div class="container">
+<strong id="footerName">TIKHON | IT PROJECTS</strong>
+<p>© <span id="year"></span> Все права на материалы принадлежат их автору.</p>
+</div>
+</footer>
+
+<button class="admin-fab" onclick="openAdmin()">⚙ Администратор</button>
+
+<div class="overlay" id="loginOverlay">
+<div class="admin" style="max-width:400px">
+<div class="admin-head"><h2>Вход в панель</h2><button class="close" onclick="closeLogin()">✕</button></div>
+<div class="field"><label>Пароль администратора</label><input id="adminPassword" type="password" placeholder="Введите пароль"></div>
+<button class="btn" onclick="login()">Войти</button>
+<p class="small" id="loginError"></p>
+</div>
+</div>
+
+<div class="overlay" id="adminOverlay">
+<div class="admin">
+<div class="admin-head">
+<div><div class="eyebrow">CONTROL PANEL</div><h2>Панель администратора</h2></div>
+<button class="close" onclick="closeAdmin()">✕ Закрыть</button>
+</div>
+<div class="notice">Изменения сохраняются автоматически в браузере. Для публикации обновлённой версии на GitHub Pages нужно обновить файл сайта или подключить облачную базу данных.</div>
+<div class="tabs">
+<button class="tab active" onclick="showTab('general',this)">Главная</button>
+<button class="tab" onclick="showTab('projectsAdmin',this)">Проекты</button>
+<button class="tab" onclick="showTab('aboutAdmin',this)">Обо мне</button>
+<button class="tab" onclick="showTab('techAdmin',this)">Технологии</button>
+<button class="tab" onclick="showTab('contactsAdmin',this)">Контакты</button>
+</div>
+
+<div class="panel active" id="general">
+<h3>Главная страница и логотип</h3>
+<div class="field"><label>Название студии</label><input id="fBrand"></div>
+<div class="field"><label>Маленькая надпись над заголовком</label><input id="fEyebrow"></div>
+<div class="field"><label>Главный заголовок (можно использовать обычный текст)</label><input id="fTitle"></div>
+<div class="field"><label>Описание главной страницы</label><textarea id="fHero"></textarea></div>
+<div class="field"><label>Логотип: загрузить изображение</label><input id="fLogo" type="file" accept="image/*"></div>
+<div class="field"><label>Или ссылка на логотип</label><input id="fLogoUrl" placeholder="https://..."></div>
+<button class="btn" onclick="saveGeneral()">Сохранить главную</button>
+</div>
+
+<div class="panel" id="projectsAdmin">
+<h3>Управление проектами</h3>
+<div id="adminProjectList"></div>
+<hr style="border-color:#ffffff22;margin:25px 0">
+<h3 id="editorTitle">Добавить проект</h3>
+<input type="hidden" id="editId">
+<div class="field"><label>Название проекта</label><input id="pName"></div>
+<div class="field"><label>Иконка (эмодзи)</label><input id="pIcon" placeholder="💻"></div>
+<div class="field"><label>Описание</label><textarea id="pDesc"></textarea></div>
+<div class="field"><label>Функции проекта</label><textarea id="pFunctions" placeholder="Перечислите возможности проекта"></textarea></div>
+<div class="field"><label>Технологии</label><input id="pTech" placeholder="HTML, CSS, JavaScript"></div>
+<div class="field"><label>Вместимость / масштаб системы</label><input id="pCapacity" placeholder="Например: база из 116+ товаров"></div>
+<div class="field"><label>Ссылка на сайт</label><input id="pLink" placeholder="https://..."></div>
+<div class="field"><label>Ссылка на фотографию</label><input id="pImage" placeholder="https://..."></div>
+<div class="field"><label>Или загрузить фотографию</label><input id="pFile" type="file" accept="image/*"></div>
+<button class="btn" onclick="saveProject()">Сохранить проект</button>
+<button class="btn secondary" onclick="clearProjectForm()">Очистить форму</button>
+</div>
+
+<div class="panel" id="aboutAdmin">
+<h3>Раздел «Обо мне»</h3>
+<div class="field"><label>Заголовок</label><input id="fAboutTitle"></div>
+<div class="field"><label>Описание</label><textarea id="fAbout"></textarea></div>
+<div class="field"><label>Мой подход</label><textarea id="fApproach"></textarea></div>
+<button class="btn" onclick="saveAbout()">Сохранить</button>
+</div>
+
+<div class="panel" id="techAdmin">
+<h3>Технологии</h3>
+<div class="field"><label>Описание раздела</label><textarea id="fTechText"></textarea></div>
+<div class="field"><label>Список технологий (каждая с новой строки)</label><textarea id="fSkills"></textarea></div>
+<button class="btn" onclick="saveTech()">Сохранить</button>
+</div>
+
+<div class="panel" id="contactsAdmin">
+<h3>Контакты</h3>
+<div class="field"><label>Описание</label><textarea id="fContactText"></textarea></div>
+<div class="field"><label>Контактная информация</label><input id="fContactValue"></div>
+<div class="field"><label>Подпись внизу сайта</label><input id="fFooter"></div>
+<button class="btn" onclick="saveContacts()">Сохранить</button>
+</div>
+</div>
+</div>
+
+<script>
+const PASSWORD = "80мектеп80";
+const KEY = "tikhon_portfolio_v1";
+
+const defaults = {
+ brand:"TIKHON",
+ eyebrow:"PERSONAL IT PORTFOLIO",
+ title:"Создаю цифровые проекты и системы",
+ hero:"Разработка сайтов, автоматизация процессов, системы учёта, складские решения и интерактивные IT-тренажёры.",
+ logo:"",
+ aboutTitle:"О разработчике",
+ about:"Я изучаю веб-разработку и создаю собственные цифровые решения. Мне интересно не только оформление сайтов, но и их функциональность: базы данных, интерфейсы, автоматизация, печать документов и взаимодействие с оборудованием.",
+ approach:"Я стараюсь создавать понятные интерфейсы, добавлять полезные функции и делать проекты удобными для использования на компьютерах и смартфонах.",
+ techText:"В проектах используются следующие технологии и инструменты:",
+ skills:["HTML5","CSS3","JavaScript","GitHub Pages","Google Apps Script","Google Sheets","JSON","Адаптивная вёрстка","Автоматизация"],
+ contactText:"По вопросам сотрудничества и знакомства с проектами:",
+ contactValue:"Связаться с разработчиком можно через личные сообщения.",
+ footer:"TIKHON | IT PROJECTS",
+ projectsIntro:"Каждый проект решает определённую задачу: от школьных информационных сайтов до автоматизированных систем и технических тренажёров.",
+ projects:[
+ {id:1,name:"Healthy Food School",icon:"🥗",desc:"Информационный сайт школьного проекта здорового питания для школы-гимназии №80 имени Сакена Сейфуллина в Астане.",functions:"Информационные разделы; фотографии; материалы о здоровом питании; панель администратора; управление изображениями.",tech:"HTML, CSS, JavaScript, GitHub Pages",capacity:"Масштабируется по количеству страниц, фотографий и материалов.",link:"https://alesaevt-hash.github.io/healthy-food-school/#home",image:""},
+ {id:2,name:"LEGO Cosmo City",icon:"🧱",desc:"Цифровая система для учёта товаров и работы склада LEGO Cosmo City.",functions:"Учёт штрихкодов; поиск товаров; зоны, стеллажи и полки; складские операции; накладные; печать документов; звуковые уведомления.",tech:"HTML, CSS, JavaScript, Google Sheets, Apps Script",capacity:"Исходная база содержала более 116 штрихкодов. Количество товаров может расширяться.",link:"https://alesaevt-hash.github.io/lego-cosmo-city/",image:""},
+ {id:3,name:"Школьный портал гимназии №80",icon:"🏫",desc:"Идея школьного информационного портала для учеников и администрации класса.",functions:"Расписание; домашние задания; объявления; список учеников; мероприятия; роли старосты и модераторов.",tech:"HTML, CSS, JavaScript, GitHub Pages",capacity:"Проект рассчитан на работу с классом примерно из 25 учеников.",link:"",image:""},
+ {id:4,name:"Тренажёр пожарной автоматики",icon:"🚨",desc:"Интерактивная модель системы пожарной сигнализации и противопожарной автоматики.",functions:"Моделирование ППКП; шлейфы; извещатели ИПР-513-10 и ИП-212-141; ИО-102-20; Гранит-16; оборудование Болид; Рокот-5 ПУО; С-2000-АСПТ; табло; дымоудаление; индикация состояний.",tech:"HTML, CSS, JavaScript",capacity:"Возможность расширения модели новыми приборами, зонами, сценариями и логикой взаимодействия.",link:"",image:""},
+ {id:5,name:"Система учёта и печати накладных",icon:"🖨️",desc:"Автоматизация складских операций, сканирования и оформления документов.",functions:"Сканирование штрихкодов; состав накладной; упаковка; печать; офисные экземпляры; отправка и приём товаров.",tech:"Google Apps Script, Google Sheets, JavaScript",capacity:"Поддержка расширяемой товарной базы и нескольких типов принтеров.",link:"",image:""}
+ ]
+};
+
+let data = loadData();
+
+function loadData(){
+ try{
+  const saved=localStorage.getItem(KEY);
+  if(saved){
+   const parsed=JSON.parse(saved);
+   return {...structuredClone(defaults),...parsed,projects:parsed.projects||structuredClone(defaults.projects)};
+  }
+ }catch(e){}
+ return structuredClone(defaults);
+}
+function saveData(){
+ try{
+  localStorage.setItem(KEY,JSON.stringify(data));
+ }catch(e){
+  alert("Не удалось сохранить данные. Возможно, изображения слишком большие. Попробуйте уменьшить их размер.");
+ }
+}
+function esc(s){
+ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function render(){
+ document.title=data.brand+" | IT Projects";
+ document.getElementById("brandName").textContent=data.brand;
+ document.getElementById("footerName").textContent=data.footer;
+ document.getElementById("eyebrow").textContent=data.eyebrow;
+ document.getElementById("heroTitle").textContent=data.title;
+ document.getElementById("heroText").textContent=data.hero;
+ document.getElementById("aboutTitle").textContent=data.aboutTitle;
+ document.getElementById("aboutText").textContent=data.about;
+ document.getElementById("approachText").textContent=data.approach;
+ document.getElementById("technologyText").textContent=data.techText;
+ document.getElementById("contactText").textContent=data.contactText;
+ document.getElementById("contactValue").textContent=data.contactValue;
+ document.getElementById("projectsIntro").textContent=data.projectsIntro;
+ document.getElementById("year").textContent=new Date().getFullYear();
+ document.getElementById("statProjects").textContent=data.projects.length;
+ const logo=document.getElementById("logoBox");
+ logo.innerHTML=data.logo?`<img src="${esc(data.logo)}" alt="Логотип">`:"T";
+ document.getElementById("skills").innerHTML=data.skills.map(x=>`<div class="skill">${esc(x)}</div>`).join("");
+ document.getElementById("projectGrid").innerHTML=data.projects.map(p=>`
+ <article class="card">
+ ${p.image?`<img class="project-image" src="${esc(p.image)}" alt="${esc(p.name)}">`:`<div class="project-icon">${esc(p.icon||"💻")}</div>`}
+ <h3>${esc(p.name)}</h3>
+ <p>${esc(p.desc)}</p>
+ <div class="tags">${esc(p.tech).split(",").map(t=>`<span class="tag">${esc(t.trim())}</span>`).join("")}</div>
+ <div class="details">
+ <p><b>Возможности:</b> ${esc(p.functions)}</p>
+ <p><b>Вместимость и масштаб:</b> ${esc(p.capacity)}</p>
+ </div>
+ ${p.link?`<p><a class="btn secondary" href="${esc(p.link)}" target="_blank" rel="noopener">Открыть проект ↗</a></p>`:""}
+ </article>`).join("");
+}
+function openAdmin(){document.getElementById("loginOverlay").classList.add("show");document.getElementById("adminPassword").value="";document.getElementById("loginError").textContent="";}
+function closeLogin(){document.getElementById("loginOverlay").classList.remove("show")}
+function login(){
+ if(document.getElementById("adminPassword").value===PASSWORD){
+  closeLogin();document.getElementById("adminOverlay").classList.add("show");fillForms();renderAdminProjects();
+ }else document.getElementById("loginError").textContent="Неверный пароль";
+}
+function closeAdmin(){document.getElementById("adminOverlay").classList.remove("show")}
+function showTab(id,btn){
+ document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+ document.getElementById(id).classList.add("active");btn.classList.add("active");
+}
+function fillForms(){
+ set("fBrand",data.brand);set("fEyebrow",data.eyebrow);set("fTitle",data.title);set("fHero",data.hero);
+ set("fAboutTitle",data.aboutTitle);set("fAbout",data.about);set("fApproach",data.approach);
+ set("fTechText",data.techText);set("fSkills",data.skills.join("\n"));
+ set("fContactText",data.contactText);set("fContactValue",data.contactValue);set("fFooter",data.footer);
+ set("fLogoUrl",data.logo);
+}
+function set(id,value){document.getElementById(id).value=value||""}
+function saveGeneral(){
+ data.brand=get("fBrand");data.eyebrow=get("fEyebrow");data.title=get("fTitle");data.hero=get("fHero");
+ const url=get("fLogoUrl");if(url)data.logo=url;
+ saveData();render();alert("Главная страница сохранена!");
+}
+function saveAbout(){
+ data.aboutTitle=get("fAboutTitle");data.about=get("fAbout");data.approach=get("fApproach");
+ saveData();render();alert("Раздел сохранён!");
+}
+function saveTech(){
+ data.techText=get("fTechText");data.skills=get("fSkills").split("\n").map(x=>x.trim()).filter(Boolean);
+ saveData();render();alert("Технологии сохранены!");
+}
+function saveContacts(){
+ data.contactText=get("fContactText");data.contactValue=get("fContactValue");data.footer=get("fFooter");
+ saveData();render();alert("Контакты сохранены!");
+}
+function get(id){return document.getElementById(id).value.trim()}
+function renderAdminProjects(){
+ document.getElementById("adminProjectList").innerHTML=data.projects.map(p=>`
+ <div class="admin-project">
+ <h3>${esc(p.icon)} ${esc(p.name)}</h3>
+ <p class="small">${esc(p.desc)}</p>
+ <button class="btn" onclick="editProject(${p.id})">Изменить</button>
+ <button class="btn red" onclick="deleteProject(${p.id})">Удалить</button>
+ </div>`).join("");
+}
+function clearProjectForm(){
+ ["editId","pName","pIcon","pDesc","pFunctions","pTech","pCapacity","pLink","pImage"].forEach(id=>set(id,""));
+ document.getElementById("pFile").value="";
+ document.getElementById("editorTitle").textContent="Добавить проект";
+}
+function editProject(id){
+ const p=data.projects.find(x=>x.id===id);if(!p)return;
+ set("editId",p.id);set("pName",p.name);set("pIcon",p.icon);set("pDesc",p.desc);
+ set("pFunctions",p.functions);set("pTech",p.tech);set("pCapacity",p.capacity);
+ set("pLink",p.link);set("pImage",p.image);
+ document.getElementById("editorTitle").textContent="Изменить проект";
+ document.getElementById("pFile").value="";
+ document.getElementById("projectsAdmin").scrollIntoView({behavior:"smooth"});
+}
+function deleteProject(id){
+ if(!confirm("Удалить этот проект?"))return;
+ data.projects=data.projects.filter(x=>x.id!==id);
+ saveData();render();renderAdminProjects();
+}
+function saveProject(){
+ const id=Number(get("editId"));
+ const old=data.projects.find(x=>x.id===id);
+ const p={
+ id:id||Date.now(),
+ name:get("pName"),icon:get("pIcon")||"💻",desc:get("pDesc"),
+ functions:get("pFunctions"),tech:get("pTech"),capacity:get("pCapacity"),
+ link:get("pLink"),image:get("pImage")||(old?.image||"")
+ };
+ if(!p.name){alert("Введите название проекта");return}
+ const file=document.getElementById("pFile").files[0];
+ const finish=()=>{
+  if(id){data.projects=data.projects.map(x=>x.id===id?p:x)}
+  else data.projects.push(p);
+  saveData();render();renderAdminProjects();clearProjectForm();
+  alert("Проект сохранён!");
+ };
+ if(file){
+  const reader=new FileReader();
+  reader.onload=()=>{p.image=reader.result;finish()};
+  reader.readAsDataURL(file);
+ }else finish();
+}
+document.getElementById("fLogo").addEventListener("change",e=>{
+ const file=e.target.files[0];if(!file)return;
+ const reader=new FileReader();
+ reader.onload=()=>{
+  data.logo=reader.result;saveData();render();set("fLogoUrl","");
+  alert("Логотип изменён!");
+ };
+ reader.readAsDataURL(file);
+});
+function get(id){return document.getElementById(id).value.trim()}
+render();
+</script>
+</body>
+</html>
